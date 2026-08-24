@@ -2,7 +2,26 @@
    TIN HỌC ÔN TẬP
    MAIN JAVASCRIPT
 ========================================================= */
+/* =========================================================
+   FIREBASE CLOUD DATABASE
+   ========================================================= */
 
+const firebaseConfig = {
+    apiKey: "DÁN_API_KEY_CỦA_BẠN",
+    authDomain: "DÁN_AUTH_DOMAIN_CỦA_BẠN",
+    projectId: "DÁN_PROJECT_ID_CỦA_BẠN",
+    storageBucket: "DÁN_STORAGE_BUCKET_CỦA_BẠN",
+    messagingSenderId: "DÁN_MESSAGING_SENDER_ID",
+    appId: "DÁN_APP_ID_CỦA_BẠN"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const firebaseAuth = firebase.auth();
+const firebaseDB = firebase.firestore();
+
+let cloudUsers = [];
+let firebaseReady = false;
 
 /* =========================================================
    ADMIN
@@ -2310,3 +2329,134 @@ document.addEventListener("click", function(event) {
     }
 
 });
+
+
+/* =========================================================
+   FIREBASE AUTH INITIALIZATION
+   ========================================================= */
+
+async function initFirebase() {
+
+    try {
+
+        firebaseReady = true;
+
+        firebaseAuth.onAuthStateChanged(async (user) => {
+
+            if (!user) {
+
+                state.currentUser = null;
+
+                render();
+
+                return;
+            }
+
+            try {
+
+                const userDoc =
+                    await firebaseDB
+                        .collection("users")
+                        .doc(user.uid)
+                        .get();
+
+                if (!userDoc.exists) {
+
+                    await firebaseAuth.signOut();
+
+                    state.currentUser = null;
+
+                    toast(
+                        "Tài khoản chưa được thiết lập.",
+                        "err"
+                    );
+
+                    render();
+
+                    return;
+                }
+
+                const data = userDoc.data();
+
+                /* TÀI KHOẢN BỊ KHÓA */
+
+                if (data.status === "blocked") {
+
+                    await firebaseAuth.signOut();
+
+                    state.currentUser = null;
+
+                    toast(
+                        "Tài khoản của bạn đã bị khóa.",
+                        "err"
+                    );
+
+                    render();
+
+                    return;
+                }
+
+                /* TÀI KHOẢN ĐÃ XÓA */
+
+                if (data.status === "deleted") {
+
+                    await firebaseAuth.signOut();
+
+                    state.currentUser = null;
+
+                    toast(
+                        "Tài khoản không còn hoạt động.",
+                        "err"
+                    );
+
+                    render();
+
+                    return;
+                }
+
+                state.currentUser = {
+                    id: user.uid,
+                    uid: user.uid,
+                    name: data.name || "Học sinh",
+                    username: data.username || "",
+                    email: data.email || user.email || "",
+                    role: data.role || "student",
+                    status: data.status || "active",
+                    created: data.created || Date.now()
+                };
+
+                render();
+
+            } catch (error) {
+
+                console.error(error);
+
+                toast(
+                    "Không thể tải thông tin tài khoản.",
+                    "err"
+                );
+
+                state.currentUser = null;
+
+                render();
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Firebase initialization error:",
+            error
+        );
+
+        firebaseReady = false;
+
+        toast(
+            "Firebase chưa được cấu hình.",
+            "err"
+        );
+
+        render();
+    }
+}
