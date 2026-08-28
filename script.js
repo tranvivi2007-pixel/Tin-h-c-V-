@@ -7447,61 +7447,131 @@ function toggleQA(
 
 
 
-/* =====================================================
-   LÀM LẠI BÀI TỪ LỊCH SỬ
-   ===================================================== */
+/* =========================================================
+   🔐 KHÓA CHỨC NĂNG KHI CHƯA ĐĂNG NHẬP
+   ========================================================= */
 
-function retryExam(moduleId) {
+function requireLogin(message = "Vui lòng đăng ký hoặc đăng nhập để sử dụng chức năng này.") {
 
-    console.log("Đang làm lại bài:", moduleId);
+    if (currentUser) {
+        return true;
+    }
 
-    // Kiểm tra mã bài
-    if (!moduleId) {
-        console.error("Không tìm thấy moduleId của bài thi.");
+    showToast(message);
+
+    setTimeout(() => {
+        if (typeof openLogin === "function") {
+            openLogin();
+        }
+    }, 250);
+
+    return false;
+}
+
+
+/* =========================================================
+   🔐 KHÓA POWERPOINT / EXCEL / WORD
+   ========================================================= */
+
+const originalOpenCategory = window.openCategory;
+
+window.openCategory = function(category) {
+
+    if (!requireLogin(
+        "🔒 Vui lòng đăng ký hoặc đăng nhập để học bài."
+    )) {
         return;
     }
 
-    // Đóng các màn hình đang mở nếu có
-    const authModal = document.getElementById("authModal");
-    if (authModal) {
-        authModal.style.display = "none";
+    return originalOpenCategory(category);
+};
+
+
+/* =========================================================
+   🔐 KHÓA ÔN TẬP TRẮC NGHIỆM
+   ========================================================= */
+
+const originalOpenExam = window.openExam;
+
+window.openExam = function() {
+
+    if (!requireLogin(
+        "🔒 Vui lòng đăng ký hoặc đăng nhập để làm bài trắc nghiệm."
+    )) {
+        return;
     }
 
-    /*
-       Mở lại hệ thống trắc nghiệm
-    */
-    if (typeof openExam === "function") {
-        openExam();
+    return originalOpenExam();
+};
 
-        // Cho giao diện trắc nghiệm render xong
-        setTimeout(() => {
 
-            // Nếu hệ thống của bạn có hàm chọn module
-            if (typeof startExam === "function") {
-                startExam(moduleId);
-                return;
-            }
+/* =========================================================
+   🔐 KHÓA ĐỀ THI & TÀI LIỆU
+   ========================================================= */
 
-            if (typeof selectExamModule === "function") {
-                selectExamModule(moduleId);
-                return;
-            }
+const originalOpenDocuments = window.openDocuments;
 
-            if (typeof startModuleExam === "function") {
-                startModuleExam(moduleId);
-                return;
-            }
+window.openDocuments = function() {
 
-            console.log(
-                "Đã mở trang trắc nghiệm. Module:",
-                moduleId
-            );
-
-        }, 100);
-
-    } else {
-        console.error(
-            "Không tìm thấy hàm openExam()."
-        );
+    if (!requireLogin(
+        "🔒 Vui lòng đăng ký hoặc đăng nhập để xem đề thi và tài liệu."
+    )) {
+        return;
     }
-}
+
+    return originalOpenDocuments();
+};
+
+
+/* =========================================================
+   🔐 KHÓA VIDEO
+   ========================================================= */
+
+const originalOpenVideos = window.openVideos;
+
+window.openVideos = function() {
+
+    if (!requireLogin(
+        "🔒 Vui lòng đăng ký hoặc đăng nhập để xem video bài giảng."
+    )) {
+        return;
+    }
+
+    return originalOpenVideos();
+};
+
+
+/* =========================================================
+   🔐 KHÓA HỎI ĐÁP
+   ========================================================= */
+
+const originalOpenDiscussion = window.openDiscussion;
+
+window.openDiscussion = function() {
+
+    if (!requireLogin(
+        "🔒 Vui lòng đăng ký hoặc đăng nhập để sử dụng Hỏi đáp."
+    )) {
+        return;
+    }
+
+    return originalOpenDiscussion();
+};
+
+
+/* =========================================================
+   🔐 KHÓA TỪNG MODULE LÝ THUYẾT
+   ========================================================= */
+
+const originalOpenTheoryModule = window.openTheoryModule;
+
+window.openTheoryModule = function(moduleId) {
+
+    if (!requireLogin(
+        "🔒 Vui lòng đăng ký hoặc đăng nhập để học lý thuyết."
+    )) {
+        return;
+    }
+
+    return originalOpenTheoryModule(moduleId);
+};
