@@ -4,281 +4,321 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TIN HỌC - Ôn tập</title>
+    <title>TIN HỌC - Ôn tập | Vững kiến thức</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- =========================================================
+     TRANG CHỦ - LỊCH SỬ THI + TIẾN ĐỘ HỌC TẬP
+     ========================================================= -->
 
-    <!-- Icons -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+    /* Chỉ ẩn ô VIDEO riêng trên trang chủ.
+       Video bên trong PowerPoint / Excel / Word vẫn giữ nguyên. */
+    .main-categories .videos-card {
+        display: none !important;
+    }
+
+    /* Khu vực mới sẽ được JS tạo tự động */
+    #homeStudyDashboard {
+        display: none;
+    }
+</style>
+
+
+
+
+<!-- =====================================================
+     SEO GOOGLE - TIN HỌC ĐẦU RA ANH VĨ
+===================================================== -->
+
+<title>Tin học đầu ra Anh Vĩ | Ôn tập Tin học - Vững kiến thức</title>
+
+<meta name="description"
+      content="Tin học đầu ra Anh Vĩ - Website ôn tập kiến thức Tin học đầu ra với PowerPoint, Excel, Word, trắc nghiệm, đề thi và tài liệu ôn tập.">
+
+<meta name="keywords"
+      content="Tin học đầu ra Anh Vĩ,
+               Tin học đầu ra,
+               Anh Vĩ,
+               Ôn tập Tin học Anh Vĩ,
+               Ôn thi Tin học đầu ra,
+               Tin học ôn tập,
+               Ôn tập PowerPoint,
+               Ôn tập Excel,
+               Ôn tập Word,
+               Trắc nghiệm Tin học,
+               Đề thi Tin học,
+               Tài liệu Tin học">
+
+<meta name="author" content="Anh Vĩ">
+
+<meta name="robots" content="index, follow">
+
+<meta name="language" content="vi">
+
+<meta name="googlebot" content="index, follow">
+
+
+<!-- Thông tin hiển thị khi chia sẻ -->
+<meta property="og:title"
+      content="Tin học đầu ra Anh Vĩ | Ôn tập Tin học">
+
+<meta property="og:description"
+      content="Website ôn tập Tin học đầu ra: PowerPoint, Excel, Word, trắc nghiệm, đề thi và tài liệu.">
+
+<meta property="og:type" content="website">
+
+<meta property="og:locale" content="vi_VN">
+
+
+<!-- Dữ liệu nhận diện website cho công cụ tìm kiếm -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Tin học đầu ra Anh Vĩ",
+    "alternateName": [
+        "Anh Vĩ Tin học",
+        "Ôn tập Tin học đầu ra Anh Vĩ",
+        "Tin học đầu ra"
+    ],
+    "description": "Website ôn tập Tin học đầu ra với PowerPoint, Excel, Word, trắc nghiệm, đề thi và tài liệu.",
+    "inLanguage": "vi"
+}
+</script>
 </head>
 
 <body>
 
-<!-- =========================================================
+<!-- =====================================================
      HEADER
-========================================================= -->
+===================================================== -->
 
-<header class="header">
+<header class="top-header">
 
-    <div class="header-top">
+    <div class="brand">
 
-        <div class="brand">
-
-            <div class="brand-logo">
-                <i class="fa-solid fa-display"></i>
-            </div>
-
-            <div class="brand-text">
-                <h1>TIN HỌC</h1>
-                <span>ÔN TẬP – VỮNG KIẾN THỨC</span>
-            </div>
-
+        <div class="brand-logo">
+            <i class="fa-solid fa-computer"></i>
         </div>
 
-
-        <div class="search-box">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Tìm kiếm bài học, tài liệu..."
-            >
-
-            <button onclick="searchWebsite()">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-
+        <div class="brand-text">
+            <h1>TIN HỌC</h1>
+            <span>ÔN TẬP – VỮNG KIẾN THỨC</span>
         </div>
 
+    </div>
 
-        <div class="account-area" id="accountArea">
 
-            <button class="login-btn" onclick="openLogin()">
-                Đăng nhập
-            </button>
+    <div class="search-box">
 
-            <button class="register-btn" onclick="openRegister()">
-                Đăng ký
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Tìm kiếm bài học, tài liệu..."
+        >
+
+        <button onclick="searchContent()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+    </div>
+
+
+    <div class="account-area">
+
+        <button class="login-btn" onclick="openLogin()">
+            Đăng nhập
+        </button>
+
+        <button class="register-btn" onclick="openRegister()">
+            Đăng ký
+        </button>
+
+        <div id="userArea" class="user-area hidden">
+
+            <div class="user-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <span id="usernameDisplay"></span>
+
+            <button onclick="logout()" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
             </button>
 
         </div>
 
     </div>
 
-
-    <!-- MENU MỘT HÀNG -->
-
-    <nav class="main-menu">
-
-        <button class="menu-item active" onclick="showPage('home')">
-            <i class="fa-solid fa-house"></i>
-            <span>Trang chủ</span>
-        </button>
-
-
-        <button class="menu-item powerpoint" onclick="showCourse('powerpoint')">
-
-            <i class="fa-solid fa-file-powerpoint"></i>
-
-            <span>PowerPoint</span>
-
-        </button>
-
-
-        <button class="menu-item excel" onclick="showCourse('excel')">
-
-            <i class="fa-solid fa-file-excel"></i>
-
-            <span>Excel</span>
-
-        </button>
-
-
-        <button class="menu-item word" onclick="showCourse('word')">
-
-            <i class="fa-solid fa-file-word"></i>
-
-            <span>Word</span>
-
-        </button>
-
-
-        <button class="menu-item" onclick="showPage('quiz')">
-
-            <i class="fa-solid fa-circle-question"></i>
-
-            <span>Ôn tập trắc nghiệm</span>
-
-        </button>
-
-
-        <button class="menu-item" onclick="showPage('documents')">
-
-            <i class="fa-solid fa-folder-open"></i>
-
-            <span>Đề thi & Tài liệu</span>
-
-        </button>
-
-
-        <button class="menu-item" onclick="showPage('videos')">
-
-            <i class="fa-solid fa-circle-play"></i>
-
-            <span>Video bài giảng</span>
-
-        </button>
-
-
-        <button class="menu-item" onclick="showPage('ai')">
-
-            <i class="fa-solid fa-robot"></i>
-
-            <span>AI hỗ trợ</span>
-
-        </button>
-
-
-        <button class="menu-item" onclick="showPage('about')">
-
-            <i class="fa-solid fa-circle-info"></i>
-
-            <span>Giới thiệu</span>
-
-        </button>
-
-    </nav>
-
 </header>
 
 
-<!-- =========================================================
-     BODY
-========================================================= -->
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
 
-<main class="container">
+<nav class="main-nav">
+
+    <button onclick="showHome()" class="nav-item active">
+        <i class="fa-solid fa-house"></i>
+        <span>Trang chủ</span>
+    </button>
+
+    <button onclick="openCategory('powerpoint')" class="nav-item">
+        <i class="fa-solid fa-file-powerpoint"></i>
+        <span>PowerPoint</span>
+    </button>
+
+    <button onclick="openCategory('excel')" class="nav-item">
+        <i class="fa-solid fa-file-excel"></i>
+        <span>Excel</span>
+    </button>
+
+    <button onclick="openCategory('word')" class="nav-item">
+        <i class="fa-solid fa-file-word"></i>
+        <span>Word</span>
+    </button>
+
+    <button onclick="openExam()" class="nav-item">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Ôn tập trắc nghiệm</span>
+    </button>
+
+    <button onclick="openDocuments()" class="nav-item">
+        <i class="fa-solid fa-folder-open"></i>
+        <span>Đề thi &amp; Tài liệu</span>
+    </button>
+
+    <button onclick="openVideos()" class="nav-item">
+        <i class="fa-solid fa-circle-play"></i>
+        <span>Video bài giảng</span>
+    </button>
+
+    <button onclick="openDiscussion()" class="nav-item">
+        <i class="fa-solid fa-comments"></i>
+        <span>Hỏi đáp</span>
+    </button>
+
+    <button onclick="openAbout()" class="nav-item">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Giới thiệu</span>
+    </button>
+
+</nav>
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="layout">
 
     <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
-        <div class="side-card">
+        <section class="side-card">
 
             <h3>
                 <i class="fa-solid fa-layer-group"></i>
                 DANH MỤC ÔN TẬP
             </h3>
 
-
-            <button onclick="showCourse('powerpoint')">
-                <span class="side-icon pp">
+            <button onclick="openCategory('powerpoint')">
+                <span class="side-icon powerpoint">
                     <i class="fa-solid fa-file-powerpoint"></i>
                 </span>
                 PowerPoint
             </button>
 
-
-            <button onclick="showCourse('excel')">
-                <span class="side-icon ex">
+            <button onclick="openCategory('excel')">
+                <span class="side-icon excel">
                     <i class="fa-solid fa-file-excel"></i>
                 </span>
                 Excel
             </button>
 
-
-            <button onclick="showCourse('word')">
-                <span class="side-icon wd">
+            <button onclick="openCategory('word')">
+                <span class="side-icon word">
                     <i class="fa-solid fa-file-word"></i>
                 </span>
                 Word
             </button>
 
-
-            <button onclick="showPage('quiz')">
-                <span class="side-icon quiz">
+            <button onclick="openExam()">
+                <span class="side-icon exam">
                     <i class="fa-solid fa-list-check"></i>
                 </span>
                 Ôn tập trắc nghiệm
             </button>
 
-
-            <button onclick="showPage('documents')">
-                <span class="side-icon folder">
+            <button onclick="openDocuments()">
+                <span class="side-icon documents">
                     <i class="fa-solid fa-folder"></i>
                 </span>
                 Đề thi & Tài liệu
             </button>
 
-
-            <button onclick="showPage('ai')">
-                <span class="side-icon ai">
-                    <i class="fa-solid fa-robot"></i>
+            <button onclick="openVideos()">
+                <span class="side-icon videos">
+                    <i class="fa-solid fa-play"></i>
                 </span>
-                AI hỗ trợ
+                Video bài giảng
             </button>
 
-        </div>
+        </section>
 
 
-        <!-- USER CARD -->
-
-        <div class="user-card" id="userCard">
-
-            <div class="user-avatar">
-                <i class="fa-solid fa-user"></i>
-            </div>
-
-            <div>
-                <small>Chưa đăng nhập</small>
-                <strong>Khách</strong>
-            </div>
-
-        </div>
-
-
-        <!-- ADMIN -->
-
-        <div
-            class="admin-panel"
-            id="adminPanel"
-            style="display:none;"
-        >
+        <section class="side-card notice-card">
 
             <h3>
-                <i class="fa-solid fa-user-shield"></i>
-                QUẢN TRỊ
+                <i class="fa-solid fa-bell"></i>
+                THÔNG BÁO
             </h3>
 
-            <button onclick="showPage('admin')">
-                <i class="fa-solid fa-users-gear"></i>
-                Quản lý tài khoản
-            </button>
+            <div class="notice-content">
 
-        </div>
+                <p>
+                    Chào mừng bạn đến với
+                    <strong>website ôn tập Tin học!</strong>
+                </p>
+
+                <p>
+                    Hãy đăng nhập để lưu tiến độ
+                    học tập và kết quả.
+                </p>
+
+                <button onclick="openLogin()">
+                    Đăng nhập ngay
+                </button>
+
+            </div>
+
+        </section>
 
     </aside>
 
 
     <!-- CONTENT -->
 
-    <section class="content" id="content">
+    <section class="content">
 
-        <!-- HOME -->
+        <!-- =================================================
+             HOME
+        ================================================= -->
 
-        <section id="homePage">
+        <div id="homePage">
 
-            <div class="hero">
+            <section class="hero">
 
-                <div class="hero-content">
+                <div class="hero-text">
 
                     <span class="hero-small">
-                        NỀN TẢNG ÔN TẬP TIN HỌC
+                        TIN HỌC
                     </span>
 
                     <h2>
@@ -289,27 +329,38 @@
                         HỌC DỄ DÀNG – NẮM CHẮC KIẾN THỨC
                     </h3>
 
-
                     <div class="hero-features">
 
                         <div>
                             <i class="fa-solid fa-book-open"></i>
-                            <span>Bài giảng<br>chất lượng</span>
+                            <span>
+                                Bài giảng<br>
+                                chất lượng
+                            </span>
                         </div>
 
                         <div>
                             <i class="fa-solid fa-file-lines"></i>
-                            <span>Tài liệu<br>đa dạng</span>
+                            <span>
+                                Tài liệu & Đề thi<br>
+                                đa dạng
+                            </span>
                         </div>
 
                         <div>
                             <i class="fa-solid fa-list-check"></i>
-                            <span>Trắc nghiệm<br>thông minh</span>
+                            <span>
+                                Ôn tập trắc nghiệm<br>
+                                thông minh
+                            </span>
                         </div>
 
                         <div>
-                            <i class="fa-solid fa-robot"></i>
-                            <span>AI hỗ trợ<br>học tập</span>
+                            <i class="fa-solid fa-chart-column"></i>
+                            <span>
+                                Theo dõi tiến độ<br>
+                                học tập
+                            </span>
                         </div>
 
                     </div>
@@ -317,400 +368,635 @@
                 </div>
 
 
-                <div class="hero-graphic">
+                <div class="hero-visual">
 
-                    <div class="floating-icon pp-float">
-                        <i class="fa-solid fa-file-powerpoint"></i>
+                    <div class="floating-icon p">
+                        P
                     </div>
 
-                    <div class="floating-icon ex-float">
-                        <i class="fa-solid fa-file-excel"></i>
+                    <div class="floating-icon x">
+                        X
                     </div>
 
-                    <div class="laptop">
-                        <i class="fa-solid fa-laptop"></i>
+                    <div class="floating-icon w">
+                        W
                     </div>
 
-                    <div class="floating-icon wd-float">
-                        <i class="fa-solid fa-file-word"></i>
-                    </div>
+                    <i class="fa-solid fa-laptop"></i>
 
                 </div>
+
+            </section>
+
+
+            <!-- 6 Ô CHÍNH - CHỈ HIỆN Ở TRANG CHỦ -->
+
+            <div class="section-title">
+
+                <h2>
+                    CÁC MỤC ÔN TẬP
+                </h2>
+
+                <span>
+                    5 chuyên mục
+                </span>
 
             </div>
 
 
-            <h2 class="section-title">
-                CÁC MỤC ÔN TẬP
-            </h2>
+            <section class="main-categories">
 
 
-            <div class="course-grid">
+                <!-- POWERPOINT -->
 
-                <div class="course-card pp-card">
+                <article class="category-card powerpoint-card">
 
-                    <div class="course-logo">
+                    <div class="category-icon">
                         <i class="fa-solid fa-file-powerpoint"></i>
                     </div>
 
-                    <h3>PowerPoint</h3>
+                    <small>POWERPOINT</small>
+
+                    <h3>
+                        PowerPoint
+                    </h3>
 
                     <p>
-                        Ôn tập và học các kỹ năng trình chiếu với PowerPoint.
+                        Ôn tập và học các kỹ năng
+                        trình chiếu chuyên nghiệp.
                     </p>
 
-                    <button onclick="showCourse('powerpoint')">
+                    <button onclick="openCategory('powerpoint')">
                         Ôn tập ngay
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
-                </div>
+                </article>
 
 
-                <div class="course-card ex-card">
+                <!-- EXCEL -->
 
-                    <div class="course-logo">
+                <article class="category-card excel-card">
+
+                    <div class="category-icon">
                         <i class="fa-solid fa-file-excel"></i>
                     </div>
 
-                    <h3>Excel</h3>
+                    <small>EXCEL</small>
+
+                    <h3>
+                        Excel
+                    </h3>
 
                     <p>
-                        Ôn tập hàm, công thức và xử lý dữ liệu với Excel.
+                        Ôn tập hàm, công thức và
+                        xử lý dữ liệu với Excel.
                     </p>
 
-                    <button onclick="showCourse('excel')">
+                    <button onclick="openCategory('excel')">
                         Ôn tập ngay
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
-                </div>
+                </article>
 
 
-                <div class="course-card word-card">
+                <!-- WORD -->
 
-                    <div class="course-logo">
+                <article class="category-card word-card">
+
+                    <div class="category-icon">
                         <i class="fa-solid fa-file-word"></i>
                     </div>
 
-                    <h3>Word</h3>
+                    <small>WORD</small>
+
+                    <h3>
+                        Word
+                    </h3>
 
                     <p>
-                        Ôn tập soạn thảo văn bản và các tính năng trong Word.
+                        Ôn tập soạn thảo văn bản
+                        và các tính năng trong Word.
                     </p>
 
-                    <button onclick="showCourse('word')">
+                    <button onclick="openCategory('word')">
                         Ôn tập ngay
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
-                </div>
+                </article>
 
 
-                <div class="course-card quiz-card">
+                <!-- EXAM -->
 
-                    <div class="course-logo">
+                <article class="category-card exam-card">
+
+                    <div class="category-icon">
                         <i class="fa-solid fa-list-check"></i>
                     </div>
 
-                    <h3>Ôn tập trắc nghiệm</h3>
+                    <small>KIỂM TRA</small>
+
+                    <h3>
+                        Ôn tập trắc nghiệm
+                    </h3>
 
                     <p>
-                        Làm bài trắc nghiệm để kiểm tra kiến thức.
+                        Làm bài trắc nghiệm để
+                        kiểm tra kiến thức.
                     </p>
 
-                    <button onclick="showPage('quiz')">
+                    <button onclick="openExam()">
                         Làm bài ngay
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
-                </div>
+                </article>
 
 
-                <div class="course-card document-card">
+                <!-- DOCUMENTS -->
 
-                    <div class="course-logo">
+                <article class="category-card documents-card">
+
+                    <div class="category-icon">
                         <i class="fa-solid fa-folder-open"></i>
                     </div>
 
-                    <h3>Đề thi & Tài liệu</h3>
+                    <small>TÀI LIỆU</small>
+
+                    <h3>
+                        Đề thi & Tài liệu
+                    </h3>
 
                     <p>
-                        Tải đề thi, tài liệu ôn tập và file tham khảo.
+                        Đề thi, tài liệu ôn tập
+                        và các file tham khảo.
                     </p>
 
-                    <button onclick="showPage('documents')">
+                    <button onclick="openDocuments()">
                         Xem ngay
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
-                </div>
+                </article>
 
 
-                <div class="course-card video-card">
+                <!-- VIDEOS -->
 
-                    <div class="course-logo">
-                        <i class="fa-solid fa-circle-play"></i>
+                <article class="category-card videos-card">
+
+                    <div class="category-icon">
+                        <i class="fa-solid fa-play"></i>
                     </div>
 
-                    <h3>Video bài giảng</h3>
+                    <small>VIDEO</small>
+
+                    <h3>
+                        Video bài giảng
+                    </h3>
 
                     <p>
-                        Xem video hướng dẫn chi tiết các chủ đề Tin học.
+                        Xem video hướng dẫn
+                        chi tiết từng chủ đề.
                     </p>
 
-                    <button onclick="showPage('videos')">
+                    <button onclick="openVideos()">
                         Xem ngay
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
+
+                </article>
+
+            </section>
+<!-- =====================================================
+     THỐNG KÊ HỌC TẬP - PHIÊN BẢN MỚI
+     ===================================================== -->
+
+<div class="dashboard-box statistics">
+
+    <h3>
+        <i class="fa-solid fa-chart-simple"></i>
+        THỐNG KÊ HỌC TẬP
+    </h3>
+
+    <!-- Tổng lượt thi -->
+    <div class="quiz-stat-total">
+
+        <div class="quiz-stat-total-icon">
+            <i class="fa-solid fa-trophy"></i>
+        </div>
+
+        <div class="quiz-stat-total-info">
+
+            <span>
+                TỔNG LƯỢT THI
+            </span>
+
+            <strong id="quizTotalAttempts">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- Danh sách kết quả -->
+    <div
+        id="quizStatisticsList"
+        class="quiz-statistics-list"
+    >
+
+        <div class="quiz-stat-empty">
+
+            <i class="fa-solid fa-clipboard-check"></i>
+
+            <span>
+                Bạn chưa làm bài trắc nghiệm nào.
+            </span>
+
+            <small>
+                Hãy bắt đầu một bài thi để hệ thống
+                ghi lại kết quả.
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+        </div>
+
+
+        <!-- =================================================
+             CATEGORY PAGE
+        ================================================= -->
+
+        <div id="categoryPage" class="page-section hidden">
+
+            <button class="back-button" onclick="showHome()">
+                <i class="fa-solid fa-arrow-left"></i>
+                Trang chủ
+            </button>
+
+
+            <div class="category-header">
+
+                <div id="categoryBigIcon"
+                     class="category-big-icon">
+                </div>
+
+                <div>
+
+                    <span id="categoryLabel"></span>
+
+                    <h2 id="categoryTitle"></h2>
+
+                    <p id="categoryDescription"></p>
 
                 </div>
 
             </div>
 
 
-            <!-- DASHBOARD -->
+            <div class="lesson-title">
 
-            <div class="dashboard-grid">
+                <h2>
+                    <i class="fa-solid fa-book-open"></i>
+                    CÁC BÀI ÔN TẬP
+                </h2>
 
-                <div class="dashboard-box">
+                <span id="lessonTotal"></span>
 
-                    <h3>
-                        <i class="fa-solid fa-video"></i>
-                        BÀI GIẢNG MỚI
-                    </h3>
+            </div>
 
-                    <div id="latestVideos"></div>
 
+            <!-- BÀI HỌC ĐƯỢC TẠO Ở ĐÂY -->
+            <div id="lessonList"
+                 class="lesson-list">
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             LESSON DETAIL
+        ================================================= -->
+
+        <div id="lessonPage"
+             class="page-section hidden">
+
+            <button class="back-button"
+                    onclick="backToCategory()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Quay lại danh sách bài học
+
+            </button>
+
+
+            <div class="lesson-detail-header">
+
+                <div id="detailIcon"
+                     class="detail-icon">
                 </div>
 
+                <div>
 
-                <div class="dashboard-box">
+                    <span id="detailCategory"></span>
 
-                    <h3>
-                        <i class="fa-solid fa-file-lines"></i>
-                        TÀI LIỆU MỚI
-                    </h3>
+                    <h2 id="detailTitle"></h2>
 
-                    <div id="latestDocuments"></div>
-
-                </div>
-
-
-                <div class="dashboard-box">
-
-                    <h3>
-                        <i class="fa-solid fa-robot"></i>
-                        AI HỖ TRỢ
-                    </h3>
-
-                    <p>
-                        Hỏi AI về công thức Excel, Word,
-                        PowerPoint hoặc kiến thức Tin học.
-                    </p>
-
-                    <button class="ai-button" onclick="showPage('ai')">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        Hỏi AI ngay
-                    </button>
+                    <p id="detailDescription"></p>
 
                 </div>
 
             </div>
 
-        </section>
+
+            <div class="lesson-learning-grid">
+
+
+                <!-- VIDEO -->
+
+                <div class="video-area">
+
+                    <div class="video-title">
+
+                        <i class="fa-solid fa-circle-play"></i>
+
+                        Video bài giảng
+
+                    </div>
+
+                    <div id="videoContainer"
+                         class="video-container">
+                    </div>
+
+
+                    <div class="interaction-bar">
+
+                        <button onclick="likeLesson()"
+                                id="likeButton">
+
+                            <i class="fa-regular fa-heart"></i>
+
+                            Thích
+
+                            <span id="likeCount">
+                                0
+                            </span>
+
+                        </button>
+
+
+                        <button onclick="openCommentBox()">
+
+                            <i class="fa-regular fa-comment"></i>
+
+                            Bình luận
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="commentBox"
+                         class="comment-box hidden">
+
+                        <textarea
+                            id="commentInput"
+                            placeholder="Viết bình luận của bạn...">
+                        </textarea>
+
+                        <button onclick="sendComment()">
+                            Gửi bình luận
+                        </button>
+
+                        <div id="commentList"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILE -->
+
+                <aside class="lesson-files">
+
+                    <h3>
+
+                        <i class="fa-solid fa-file-arrow-down"></i>
+
+                        TÀI LIỆU BÀI HỌC
+
+                    </h3>
+
+                    <div id="fileContainer">
+                    </div>
+
+                </aside>
+
+            </div>
+
+
+            <!-- BÀI TIẾP THEO -->
+
+            <section class="next-lesson">
+
+                <span>
+                    BÀI HỌC TIẾP THEO
+                </span>
+
+                <button onclick="nextLesson()">
+
+                    <strong id="nextLessonTitle">
+                        Bài tiếp theo
+                    </strong>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             OTHER PAGES
+        ================================================= -->
+
+        <div id="otherPage"
+             class="page-section hidden">
+
+            <button class="back-button"
+                    onclick="showHome()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Trang chủ
+
+            </button>
+
+            <div id="otherContent"></div>
+
+        </div>
 
     </section>
 
 </main>
 
 
-<!-- =========================================================
-     MODAL LOGIN
-========================================================= -->
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
 
-<div class="modal" id="loginModal">
+<div id="authModal"
+     class="modal hidden">
 
-    <div class="modal-box">
+    <div class="auth-box">
 
-        <button class="close-modal" onclick="closeModal()">
-            ×
+        <button class="close-modal"
+                onclick="closeAuth()">
+
+            <i class="fa-solid fa-xmark"></i>
+
         </button>
 
-        <div class="modal-icon">
-            <i class="fa-solid fa-right-to-bracket"></i>
+
+        <div class="auth-logo">
+            <i class="fa-solid fa-computer"></i>
         </div>
 
-        <h2>Đăng nhập</h2>
 
-        <p class="modal-subtitle">
-            Đăng nhập để sử dụng đầy đủ chức năng
+        <h2 id="authTitle">
+            Đăng nhập
+        </h2>
+
+        <p>
+            Truy cập hệ thống học tập
         </p>
 
 
-        <div class="input-group">
+        <input
+            id="authUsername"
+            type="text"
+            placeholder="Tên tài khoản"
+        >
 
-            <label>Tên tài khoản</label>
-
-            <div class="input-wrap">
-
-                <i class="fa-solid fa-user"></i>
-
-                <input
-                    id="loginUsername"
-                    type="text"
-                    placeholder="Nhập tên tài khoản"
-                >
-
-            </div>
-
-        </div>
+        <input
+            id="authPassword"
+            type="password"
+            placeholder="Mật khẩu"
+        >
 
 
-        <div class="input-group">
+        <button id="authSubmit"
+                class="auth-submit"
+                onclick="submitAuth()">
 
-            <label>Mật khẩu</label>
-
-            <div class="input-wrap">
-
-                <i class="fa-solid fa-lock"></i>
-
-                <input
-                    id="loginPassword"
-                    type="password"
-                    placeholder="Nhập mật khẩu"
-                >
-
-            </div>
-
-        </div>
-
-
-        <button class="submit-button" onclick="login()">
             Đăng nhập
+
         </button>
 
 
-        <p class="switch-modal">
-            Chưa có tài khoản?
-            <button onclick="switchToRegister()">
+        <div class="auth-switch">
+
+            <span id="switchText">
+                Chưa có tài khoản?
+            </span>
+
+            <button onclick="switchAuth()">
                 Đăng ký
             </button>
-        </p>
+
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- =========================================================
-     REGISTER
-========================================================= -->
+<!-- =====================================================
+     AI ASSISTANT
+===================================================== -->
 
-<div class="modal" id="registerModal">
+<div id="aiPanel"
+     class="ai-panel hidden">
 
-    <div class="modal-box">
+    <div class="ai-header">
 
-        <button class="close-modal" onclick="closeModal()">
-            ×
+        <div>
+
+            <strong>
+                <i class="fa-solid fa-sparkles"></i>
+                AI TRỢ LÝ HỌC TẬP
+            </strong>
+
+            <small>
+                Hỗ trợ Tin học
+            </small>
+
+        </div>
+
+        <button onclick="toggleAI()">
+            <i class="fa-solid fa-xmark"></i>
         </button>
 
-        <div class="modal-icon register-icon">
-            <i class="fa-solid fa-user-plus"></i>
-        </div>
-
-        <h2>Tạo tài khoản</h2>
-
-        <p class="modal-subtitle">
-            Tạo tài khoản học tập miễn phí
-        </p>
+    </div>
 
 
-        <div class="input-group">
+    <div id="aiMessages"
+         class="ai-messages">
 
-            <label>Họ và tên</label>
+        <div class="ai-message">
 
-            <div class="input-wrap">
+            <i class="fa-solid fa-robot"></i>
 
-                <i class="fa-solid fa-id-card"></i>
-
-                <input
-                    id="registerName"
-                    type="text"
-                    placeholder="Nguyễn Văn A"
-                >
-
+            <div>
+                Xin chào! Tôi là AI trợ lý học tập.
+                Bạn có thể hỏi tôi về
+                <strong>Word, Excel, PowerPoint</strong>
+                hoặc kiến thức Tin học.
             </div>
 
         </div>
 
-
-        <div class="input-group">
-
-            <label>Tên tài khoản</label>
-
-            <div class="input-wrap">
-
-                <i class="fa-solid fa-user"></i>
-
-                <input
-                    id="registerUsername"
-                    type="text"
-                    placeholder="Tên đăng nhập"
-                >
-
-            </div>
-
-        </div>
+    </div>
 
 
-        <div class="input-group">
+    <div class="ai-input">
 
-            <label>Mật khẩu</label>
+        <input
+            id="aiInput"
+            type="text"
+            placeholder="Hỏi AI bất cứ điều gì..."
+            onkeydown="if(event.key==='Enter') sendAI()"
+        >
 
-            <div class="input-wrap">
+        <button onclick="sendAI()">
 
-                <i class="fa-solid fa-lock"></i>
+            <i class="fa-solid fa-paper-plane"></i>
 
-                <input
-                    id="registerPassword"
-                    type="password"
-                    placeholder="Mật khẩu"
-                >
-
-            </div>
-
-        </div>
-
-
-        <button class="submit-button" onclick="registerUser()">
-            Đăng ký tài khoản
         </button>
-
-
-        <p class="switch-modal">
-
-            Đã có tài khoản?
-
-            <button onclick="switchToLogin()">
-                Đăng nhập
-            </button>
-
-        </p>
 
     </div>
 
 </div>
-
-
-<!-- =========================================================
+<!-- =====================================================
      TOAST
-========================================================= -->
+===================================================== -->
 
-<div id="toast"></div>
+<div id="toast"
+     class="toast">
+</div>
 
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
-
-<!-- WEBSITE -->
 <script src="script.js"></script>
 
 </body>
 </html>
+
