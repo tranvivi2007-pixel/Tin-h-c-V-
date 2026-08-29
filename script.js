@@ -7621,3 +7621,178 @@ function hideAdminButton() {
     }
 }
 
+
+
+/* ================================================================
+   MOBILE NAVIGATION ENGINE — FINAL
+   Không thay đổi các chức năng học tập hiện có.
+   Chỉ bổ sung swipe/drag, chỉ dẫn trượt và nút về đầu trang.
+   ================================================================ */
+(function () {
+    "use strict";
+
+    function isMobile() {
+        return window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
+    }
+
+    function initMobileNavigation() {
+        const nav = document.querySelector(".main-nav");
+        if (!nav) return;
+
+        let hint = document.querySelector(".mobile-nav-hint");
+        if (!hint) {
+            hint = document.createElement("div");
+            hint.className = "mobile-nav-hint";
+            hint.innerHTML =
+                '<span class="hint-arrow">←</span>' +
+                '<span>TRƯỢT QUA</span>' +
+                '<span class="hint-arrow">→</span>';
+            document.body.appendChild(hint);
+        }
+
+        let topButton = document.querySelector(".mobile-top-button");
+        if (!topButton) {
+            topButton = document.createElement("button");
+            topButton.type = "button";
+            topButton.className = "mobile-top-button";
+            topButton.setAttribute("aria-label", "Về đầu trang");
+            topButton.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+            topButton.addEventListener("click", function () {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+            document.body.appendChild(topButton);
+        }
+
+        function updateNavState() {
+            const max = Math.max(0, nav.scrollWidth - nav.clientWidth);
+            const left = nav.scrollLeft;
+            const hasLeft = left > 4;
+            const hasRight = left < max - 4;
+
+            nav.classList.toggle("has-left-overflow", hasLeft);
+            nav.classList.toggle("has-right-overflow", hasRight);
+
+            if (isMobile() && max > 4) {
+                const rect = nav.getBoundingClientRect();
+                hint.style.left = "50%";
+                hint.style.top = Math.max(4, rect.bottom - 5) + "px";
+                hint.style.transform = "translate(-50%, -50%)";
+
+                // Chỉ hiện khi menu thực sự còn phần bị che.
+                if (hasRight || hasLeft) {
+                    hint.classList.add("show");
+                } else {
+                    hint.classList.remove("show");
+                }
+            } else {
+                hint.classList.remove("show");
+                nav.classList.remove("has-left-overflow", "has-right-overflow");
+            }
+        }
+
+        // Vuốt bằng cảm ứng được trình duyệt xử lý tự nhiên; phần này
+        // bổ sung kéo bằng chuột trên desktop/tablet và wheel ngang.
+        let dragging = false;
+        let dragStartX = 0;
+        let dragStartScroll = 0;
+
+        nav.addEventListener("pointerdown", function (event) {
+            if (event.pointerType === "touch") return;
+            dragging = true;
+            dragStartX = event.clientX;
+            dragStartScroll = nav.scrollLeft;
+            nav.classList.add("is-dragging");
+        });
+
+        nav.addEventListener("pointermove", function (event) {
+            if (!dragging) return;
+            const dx = event.clientX - dragStartX;
+            nav.scrollLeft = dragStartScroll - dx;
+            updateNavState();
+        });
+
+        function stopDrag() {
+            dragging = false;
+            nav.classList.remove("is-dragging");
+        }
+
+        nav.addEventListener("pointerup", stopDrag);
+        nav.addEventListener("pointercancel", stopDrag);
+        nav.addEventListener("pointerleave", stopDrag);
+
+        nav.addEventListener("wheel", function (event) {
+            if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+                const canScroll = nav.scrollWidth > nav.clientWidth;
+                if (canScroll) {
+                    nav.scrollLeft += event.deltaY;
+                    event.preventDefault();
+                }
+            }
+            updateNavState();
+        }, { passive: false });
+
+        nav.addEventListener("scroll", updateNavState, { passive: true });
+        window.addEventListener("resize", updateNavState);
+        window.addEventListener("orientationchange", function () {
+            setTimeout(updateNavState, 150);
+        });
+
+        // Nếu người dùng bấm một mục đang nằm ngoài vùng nhìn thấy,
+        // tự cuộn mục đó vào giữa màn hình.
+        nav.querySelectorAll(".nav-item").forEach(function (item) {
+            item.addEventListener("click", function () {
+                setTimeout(function () {
+                    try {
+                        item.scrollIntoView({
+                            behavior: "smooth",
+                            inline: "center",
+                            block: "nearest"
+                        });
+                    } catch (e) {}
+                    setTimeout(updateNavState, 300);
+                }, 20);
+            });
+        });
+
+        // Khi người dùng chạm menu lần đầu, chỉ dẫn biến mất để không che nội dung.
+        nav.addEventListener("touchstart", function () {
+            hint.classList.remove("show");
+        }, { passive: true });
+
+        function updateTopButton() {
+            if (!isMobile()) {
+                topButton.classList.remove("show");
+                return;
+            }
+            topButton.classList.toggle("show", window.scrollY > 420);
+        }
+
+        window.addEventListener("scroll", updateTopButton, { passive: true });
+
+        setTimeout(updateNavState, 80);
+        setTimeout(updateNavState, 400);
+        updateTopButton();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initMobileNavigation);
+    } else {
+        initMobileNavigation();
+    }
+})();
+
+/* ================================================================
+   MOBILE VIEWPORT REPAIR
+   Một số trình duyệt mobile thay đổi chiều cao viewport khi mở bàn phím.
+   Dùng biến --app-height để các modal/khung cao ổn định hơn.
+   ================================================================ */
+(function () {
+    function setAppHeight() {
+        document.documentElement.style.setProperty("--app-height", window.innerHeight + "px");
+    }
+    setAppHeight();
+    window.addEventListener("resize", setAppHeight, { passive: true });
+    window.addEventListener("orientationchange", function () {
+        setTimeout(setAppHeight, 200);
+    });
+})();
