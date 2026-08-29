@@ -6581,443 +6581,680 @@ nav .nav-item[onclick="openVideos()"] {
 
 
 /* =========================================================
-   📱 MOBILE RESPONSIVE - TỐI ƯU ĐIỆN THOẠI
-   Không thay đổi cấu trúc HTML / JS hiện tại
+   📱 MOBILE - BỐ CỤC NGANG + DỌC
+   - Thanh công cụ kéo ngang
+   - Không mất mục
+   - Nội dung tự xuống dòng theo chiều dọc
+   - Không làm trang bị tràn ngang
    ========================================================= */
 
 @media (max-width: 768px) {
 
-    /* ================================
-       CẤU HÌNH CHUNG
-       ================================ */
+    /* ===== TOÀN TRANG ===== */
 
-    * {
-        box-sizing: border-box;
-    }
-
-    html {
-        width: 100%;
-        overflow-x: hidden;
-    }
-
+    html,
     body {
         width: 100%;
         max-width: 100%;
         margin: 0;
+        padding: 0;
         overflow-x: hidden;
+    }
+
+    body {
         font-size: 16px;
     }
+
+    /* ===== KHUNG CHÍNH ===== */
 
     .container,
     .main-container,
     .content,
-    .page-container {
+    .page-container,
+    main {
         width: 100%;
         max-width: 100%;
-        padding-left: 14px;
-        padding-right: 14px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 0 auto;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
 
-    /* ================================
-       HEADER
-       ================================ */
+    /* =====================================================
+       THANH CÔNG CỤ CHÍNH
+       HIỆN ĐỦ - KÉO NGANG
+       ===================================================== */
+
+    .main-nav {
+
+        width: 100%;
+
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        flex-wrap: nowrap !important;
+
+        justify-content: flex-start !important;
+
+        align-items: stretch;
+
+        gap: 8px;
+
+        padding: 10px 12px;
+
+        overflow-x: auto !important;
+
+        overflow-y: hidden;
+
+        white-space: nowrap;
+
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: thin;
+
+        overscroll-behavior-x: contain;
+    }
+
+
+    /* Từng nút không bị co */
+
+    .main-nav .nav-item {
+
+        flex: 0 0 auto !important;
+
+        width: auto !important;
+
+        min-width: max-content;
+
+        min-height: 46px;
+
+        padding: 10px 15px;
+
+        display: inline-flex !important;
+
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 7px;
+
+        white-space: nowrap;
+
+        font-size: 14px;
+
+        border-radius: 12px;
+
+    }
+
+
+    .main-nav .nav-item i {
+
+        flex-shrink: 0;
+
+        font-size: 16px;
+
+    }
+
+
+    /* Thanh cuộn đẹp hơn */
+
+    .main-nav::-webkit-scrollbar {
+
+        height: 5px;
+
+    }
+
+    .main-nav::-webkit-scrollbar-thumb {
+
+        border-radius: 20px;
+
+        background: rgba(100, 100, 100, 0.35);
+
+    }
+
+    .main-nav::-webkit-scrollbar-track {
+
+        background: transparent;
+
+    }
+
+
+    /* =====================================================
+       LOGO / HEADER
+       ===================================================== */
 
     header,
     .header {
+
         width: 100%;
-        padding: 12px 14px;
+
+        max-width: 100%;
+
+        padding: 10px 12px;
+
     }
 
     .header-content {
+
         width: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
         gap: 10px;
+
     }
 
     .logo {
-        max-width: 65%;
+
+        max-width: 70%;
+
+        min-width: 0;
+
     }
 
     .logo img {
+
         max-width: 100%;
+
         height: auto;
+
     }
 
 
-    /* ================================
-       THANH CÔNG CỤ CHÍNH
-       ================================ */
-
-    .main-nav {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        padding: 10px 12px;
-    }
-
-    .nav-item {
-        width: 100%;
-        min-width: 0;
-        min-height: 48px;
-        padding: 10px 7px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-
-        font-size: 14px;
-        line-height: 1.2;
-        text-align: center;
-
-        white-space: normal;
-    }
-
-    .nav-item i {
-        flex-shrink: 0;
-        font-size: 16px;
-    }
-
-
-    /* ================================
-       HERO / TRANG CHỦ
-       ================================ */
+    /* =====================================================
+       TRANG CHỦ
+       ===================================================== */
 
     .hero,
     .hero-section {
+
         width: 100%;
+
+        max-width: 100%;
+
         min-height: auto;
-        padding: 30px 16px;
+
+        padding: 30px 14px;
+
         text-align: center;
+
     }
 
     .hero h1,
     .hero-section h1 {
+
         font-size: clamp(28px, 8vw, 42px);
-        line-height: 1.15;
+
+        line-height: 1.2;
+
+        word-break: normal;
+
     }
 
     .hero p,
     .hero-section p {
+
         font-size: 16px;
+
         line-height: 1.6;
+
     }
 
 
-    /* ================================
-       5 MỤC CHÍNH
-       ================================ */
+    /* =====================================================
+       CÁC MỤC CHÍNH
+       2 CỘT TRÊN ĐIỆN THOẠI
+       ===================================================== */
 
     .subjects-grid,
     .categories-grid,
     .main-grid,
     .feature-grid {
+
         width: 100%;
+
         display: grid;
+
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+
+        gap: 10px;
+
     }
+
 
     .subject-card,
     .category-card,
     .feature-card {
+
         width: 100%;
+
         min-width: 0;
-        padding: 16px 10px;
+
     }
 
 
-    /* ================================
-       CARD
-       ================================ */
+    /* =====================================================
+       MODULE NHỎ
+       2 CỘT
+       ===================================================== */
+
+    .modules-grid,
+    .module-grid,
+    .lesson-grid {
+
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+
+    }
+
+
+    .module-card {
+
+        width: 100%;
+
+        min-width: 0;
+
+        min-height: 105px;
+
+        padding: 14px 9px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-align: center;
+
+    }
+
+
+    .module-card i {
+
+        font-size: 25px;
+
+        margin-bottom: 7px;
+
+    }
+
+
+    .module-card h3,
+    .module-card span {
+
+        font-size: 16px;
+
+        line-height: 1.35;
+
+        overflow-wrap: anywhere;
+
+    }
+
+
+    /* =====================================================
+       CARD CHUNG
+       ===================================================== */
 
     .card,
     .lesson-card,
     .document-card,
     .exam-card,
     .module-card {
-        width: 100%;
-        min-width: 0;
+
+        max-width: 100%;
+
+        overflow: hidden;
+
         border-radius: 16px;
+
     }
+
 
     .card h2,
     .card h3,
     .lesson-card h3,
     .document-card h3,
     .exam-card h3 {
-        font-size: 18px;
+
         line-height: 1.35;
+
+        overflow-wrap: anywhere;
+
     }
+
 
     .card p,
     .lesson-card p,
     .document-card p,
     .exam-card p {
-        font-size: 15px;
+
         line-height: 1.55;
+
+        overflow-wrap: anywhere;
+
     }
 
 
-    /* ================================
-       CÁC MODULE NHỎ
-       ================================ */
-
-    .modules-grid,
-    .module-grid,
-    .lesson-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-        width: 100%;
-    }
-
-    .module-card {
-        padding: 15px 10px;
-        min-height: 100px;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        text-align: center;
-    }
-
-    .module-card i {
-        font-size: 25px;
-        margin-bottom: 7px;
-    }
-
-    .module-card span,
-    .module-card h3 {
-        font-size: 16px;
-        line-height: 1.3;
-    }
-
-
-    /* ================================
+    /* =====================================================
        ĐỀ THI & TÀI LIỆU
-       ================================ */
+       TRÊN MOBILE: 1 CỘT
+       ===================================================== */
 
     .documents-container,
     .documents-grid,
     .exam-document-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 16px;
+
         width: 100%;
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+
     }
+
 
     .documents-column,
     .exam-column,
     .document-column {
+
         width: 100%;
+
         min-width: 0;
+
     }
 
 
-    /* ================================
-       NÚT
-       ================================ */
-
-    button,
-    .btn,
-    .button {
-        min-height: 44px;
-        max-width: 100%;
-        font-size: 15px;
-        border-radius: 10px;
-    }
-
-    .btn-group,
-    .button-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        width: 100%;
-    }
-
-    .btn-group button,
-    .button-group button {
-        flex: 1 1 140px;
-    }
-
-
-    /* ================================
+    /* =====================================================
        TRẮC NGHIỆM
-       ================================ */
+       ===================================================== */
 
     .quiz-container,
     .exam-container,
     .quiz-box {
+
         width: 100%;
+
         max-width: 100%;
+
         padding: 14px;
+
     }
 
+
     .question {
+
+        width: 100%;
+
         font-size: 18px;
-        line-height: 1.5;
+
+        line-height: 1.55;
+
+        overflow-wrap: anywhere;
+
     }
+
+
+    /* Đáp án dọc */
 
     .answers,
     .options,
     .answer-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
+
         width: 100%;
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
     }
+
 
     .answer,
     .option,
     .answer-btn {
+
         width: 100%;
+
         min-height: 52px;
+
         padding: 12px;
+
         font-size: 16px;
+
         text-align: left;
+
+        white-space: normal;
+
+        overflow-wrap: anywhere;
+
     }
 
 
-    /* ================================
-       THANH CÂU TRƯỚC / CÂU TIẾP
-       ================================ */
+    /* =====================================================
+       CÂU TRƯỚC / CÂU TIẾP
+       ===================================================== */
 
     .quiz-navigation,
     .question-navigation,
     .exam-navigation {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+
         width: 100%;
+
+        display: grid;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 9px;
+
         margin-top: 14px;
+
     }
+
 
     .quiz-navigation button,
     .question-navigation button,
     .exam-navigation button {
+
         width: 100%;
-    }
 
-
-    /* ================================
-       THỐNG KÊ / LỊCH SỬ
-       ================================ */
-
-    .stats-grid,
-    .statistics-grid,
-    .history-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-        width: 100%;
-    }
-
-    .stats-card,
-    .history-card {
-        width: 100%;
         min-width: 0;
-        padding: 15px;
+
     }
 
 
-    /* ================================
+    /* =====================================================
        VIDEO
-       ================================ */
+       ===================================================== */
 
     .video-container,
     .video-wrapper {
+
         width: 100%;
+
         max-width: 100%;
+
         overflow: hidden;
+
         border-radius: 14px;
+
     }
+
 
     .video-container video,
     .video-wrapper video,
     video {
+
         display: block;
+
         width: 100%;
+
         max-width: 100%;
+
         height: auto;
+
     }
 
 
-    /* ================================
+    /* =====================================================
        HỎI ĐÁP
-       ================================ */
+       ===================================================== */
 
     .discussion-container,
     .discussion-box,
     .chat-container {
+
         width: 100%;
+
         max-width: 100%;
+
         padding: 12px;
+
     }
+
 
     .message,
     .chat-message {
+
         max-width: 90%;
-        font-size: 15px;
+
+        font-size: 16px;
+
         line-height: 1.5;
+
+        overflow-wrap: anywhere;
+
     }
 
 
-    /* ================================
-       FORM ĐĂNG NHẬP
-       ================================ */
+    /* =====================================================
+       ĐĂNG NHẬP
+       ===================================================== */
 
     .modal,
-    .auth-modal,
+    .auth-modal {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        padding: 12px;
+
+    }
+
+
     .modal-content,
     .auth-content {
-        width: calc(100% - 24px);
+
+        width: 100%;
+
         max-width: 430px;
+
         margin: auto;
+
+        padding: 20px 16px;
+
     }
 
-    .auth-content {
-        padding: 20px 16px;
-    }
 
     .auth-content input {
+
         width: 100%;
+
         min-height: 46px;
+
         font-size: 16px;
+
     }
 
 
-    /* ================================
-       TIÊU ĐỀ
-       ================================ */
+    /* =====================================================
+       NÚT
+       ===================================================== */
 
-    h1 {
-        font-size: clamp(26px, 7vw, 38px);
+    button,
+    .btn,
+    .button {
+
+        min-height: 44px;
+
+        max-width: 100%;
+
     }
 
-    h2 {
-        font-size: clamp(22px, 6vw, 30px);
-    }
 
-    h3 {
-        font-size: clamp(18px, 5vw, 24px);
-    }
+    /* =====================================================
+       BẢNG / LỊCH SỬ
+       ===================================================== */
 
+    .stats-grid,
+    .statistics-grid,
+    .history-grid {
 
-    /* ================================
-       FOOTER
-       ================================ */
-
-    footer,
-    .footer {
         width: 100%;
-        padding: 25px 14px;
-        text-align: center;
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+
+    }
+
+
+    .stats-card,
+    .history-card {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+
+    /* =====================================================
+       ẢNH KHÔNG ĐƯỢC TRÀN
+       ===================================================== */
+
+    img {
+
+        max-width: 100%;
+
+        height: auto;
+
+    }
+
+
+    /* =====================================================
+       TEXT KHÔNG PHÁ KHUNG
+       ===================================================== */
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    a {
+
+        overflow-wrap: anywhere;
+
     }
 
 }
@@ -7029,29 +7266,32 @@ nav .nav-item[onclick="openVideos()"] {
 
 @media (max-width: 480px) {
 
-    .container,
-    .main-container,
-    .content,
-    .page-container {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
     .main-nav {
-        grid-template-columns: repeat(2, 1fr);
+
         gap: 7px;
-        padding: 8px;
+
+        padding: 8px 10px;
+
     }
 
-    .nav-item {
-        min-height: 46px;
+
+    .main-nav .nav-item {
+
+        min-height: 44px;
+
+        padding: 9px 13px;
+
         font-size: 13px;
-        padding: 8px 5px;
+
     }
 
-    .nav-item i {
+
+    .main-nav .nav-item i {
+
         font-size: 15px;
+
     }
+
 
     .subjects-grid,
     .categories-grid,
@@ -7060,71 +7300,72 @@ nav .nav-item[onclick="openVideos()"] {
     .modules-grid,
     .module-grid,
     .lesson-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+
         gap: 8px;
+
     }
 
-    .subject-card,
-    .category-card,
-    .feature-card,
+
     .module-card {
+
+        min-height: 95px;
+
         padding: 12px 7px;
+
     }
 
-    .module-card {
-        min-height: 90px;
-    }
 
     .module-card i {
+
         font-size: 22px;
+
     }
 
-    .module-card span,
-    .module-card h3 {
+
+    .module-card h3,
+    .module-card span {
+
         font-size: 14px;
+
     }
 
-    .card h2,
-    .card h3,
-    .lesson-card h3,
-    .document-card h3,
-    .exam-card h3 {
-        font-size: 17px;
-    }
 
     .question {
+
         font-size: 17px;
+
     }
+
 
     .answer,
     .option,
     .answer-btn {
-        min-height: 50px;
-        font-size: 15px;
-    }
 
-    .quiz-navigation,
-    .question-navigation,
-    .exam-navigation {
-        gap: 7px;
+        min-height: 50px;
+
+        font-size: 15px;
+
     }
 
 }
 
 
 /* =========================================================
-   📱 ĐIỆN THOẠI RẤT NHỎ
+   📱 MÁY RẤT NHỎ
    ========================================================= */
 
 @media (max-width: 360px) {
 
-    .main-nav {
-        grid-template-columns: 1fr 1fr;
+    .main-nav .nav-item {
+
+        padding-left: 11px;
+
+        padding-right: 11px;
+
+        font-size: 12px;
+
     }
 
-    .nav-item {
-        font-size: 12px;
-    }
 
     .subjects-grid,
     .categories-grid,
@@ -7133,12 +7374,17 @@ nav .nav-item[onclick="openVideos()"] {
     .modules-grid,
     .module-grid,
     .lesson-grid {
+
         gap: 6px;
+
     }
 
-    .module-card span,
-    .module-card h3 {
+
+    .module-card h3,
+    .module-card span {
+
         font-size: 13px;
+
     }
 
 }
