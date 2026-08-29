@@ -2,6 +2,433 @@
    TIN HỌC ÔN TẬP - SCRIPT.JS (BẢN HOÀN CHỈNH)
 ===================================================== */
 
+/* =========================================================
+   HỆ THỐNG TÀI KHOẢN GOOGLE SHEETS
+   ĐĂNG KÝ + ĐĂNG NHẬP + KHÓA/MỞ TÀI KHOẢN
+   ========================================================= */
+
+
+/* =========================================================
+   1. LINK GOOGLE APPS SCRIPT
+   ========================================================= */
+
+const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/library/d/1ROSrIjNg0XPrObvwtTAFkUJCfOAzXNnty0en9Bzo2QzQsSoay8OKpAdt/1";
+
+
+/* =========================================================
+   2. GỬI DỮ LIỆU ĐẾN GOOGLE APPS SCRIPT
+   ========================================================= */
+
+async function callGoogleScript(data) {
+
+    try {
+
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+
+            body: JSON.stringify(data)
+
+        });
+
+
+        const result = await response.json();
+
+        return result;
+
+
+    } catch (error) {
+
+        console.error(
+            "Lỗi kết nối Google Apps Script:",
+            error
+        );
+
+        return {
+
+            status: "error",
+
+            message:
+                "Không thể kết nối hệ thống tài khoản. Vui lòng thử lại!"
+
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   3. ĐĂNG NHẬP / ĐĂNG KÝ
+   ========================================================= */
+
+async function submitAuth() {
+
+    const usernameElement =
+        document.getElementById("authUsername");
+
+    const passwordElement =
+        document.getElementById("authPassword");
+
+
+    if (!usernameElement || !passwordElement) {
+
+        console.error(
+            "Không tìm thấy ô tài khoản hoặc mật khẩu."
+        );
+
+        return;
+
+    }
+
+
+    const username =
+        usernameElement.value.trim();
+
+    const password =
+        passwordElement.value.trim();
+
+
+    /* -----------------------------------------------------
+       KIỂM TRA DỮ LIỆU
+       ----------------------------------------------------- */
+
+    if (!username || !password) {
+
+        showToast(
+            "Vui lòng nhập đầy đủ tài khoản và mật khẩu!"
+        );
+
+        return;
+
+    }
+
+
+    /* -----------------------------------------------------
+       XÁC ĐỊNH ĐĂNG NHẬP HAY ĐĂNG KÝ
+       ----------------------------------------------------- */
+
+    const action =
+        authMode === "login"
+            ? "login"
+            : "register";
+
+
+    showToast(
+
+        action === "login"
+            ? "Đang kiểm tra tài khoản..."
+            : "Đang tạo tài khoản..."
+
+    );
+
+
+    /* -----------------------------------------------------
+       GỬI DỮ LIỆU LÊN GOOGLE SHEETS
+       ----------------------------------------------------- */
+
+    const result = await callGoogleScript({
+
+        action: action,
+
+        fullname: username,
+
+        password: password
+
+    });
+
+
+    /* -----------------------------------------------------
+       KIỂM TRA KẾT QUẢ
+       ----------------------------------------------------- */
+
+    if (
+        !result ||
+        result.status !== "success"
+    ) {
+
+        showToast(
+
+            result &&
+            result.message
+
+                ? result.message
+
+                : "Tài khoản hoặc mật khẩu không hợp lệ!"
+
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       ĐĂNG NHẬP THÀNH CÔNG
+       ===================================================== */
+
+    if (action === "login") {
+
+        currentUser = {
+
+            username:
+
+                result.user &&
+                result.user.fullname
+
+                    ? result.user.fullname
+
+                    : username,
+
+
+            role:
+
+                result.user &&
+                result.user.role
+
+                    ? result.user.role
+
+                    : "user"
+
+        };
+
+
+        /* Lưu phiên đăng nhập */
+
+        if (
+            typeof saveCurrentUser === "function"
+        ) {
+
+            saveCurrentUser();
+
+        }
+
+
+        /* Đóng cửa sổ đăng nhập */
+
+        if (
+            typeof closeAuth === "function"
+        ) {
+
+            closeAuth();
+
+        }
+
+
+        /* Cập nhật giao diện tài khoản */
+
+        if (
+            typeof updateAccountUI === "function"
+        ) {
+
+            updateAccountUI();
+
+        }
+
+
+        showToast(
+
+            "Đăng nhập thành công! Xin chào " +
+            currentUser.username
+
+        );
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       ĐĂNG KÝ THÀNH CÔNG
+       ===================================================== */
+
+    currentUser = {
+
+        username:
+
+            result.user &&
+            result.user.fullname
+
+                ? result.user.fullname
+
+                : username,
+
+
+        role:
+
+            result.user &&
+            result.user.role
+
+                ? result.user.role
+
+                : "user"
+
+    };
+
+
+    /* Lưu phiên */
+
+    if (
+        typeof saveCurrentUser === "function"
+    ) {
+
+        saveCurrentUser();
+
+    }
+
+
+    /* Đóng cửa sổ */
+
+    if (
+        typeof closeAuth === "function"
+    ) {
+
+        closeAuth();
+
+    }
+
+
+    /* Cập nhật giao diện */
+
+    if (
+        typeof updateAccountUI === "function"
+    ) {
+
+        updateAccountUI();
+
+    }
+
+
+    showToast(
+        "Đăng ký tài khoản thành công!"
+    );
+
+}
+
+
+/* =========================================================
+   4. KIỂM TRA TRẠNG THÁI TÀI KHOẢN
+   =========================================================
+   
+   Google Sheet:
+
+   Cột E = HOẠT ĐỘNG
+
+   "Cho phép"
+       → tài khoản được sử dụng
+
+   "Không cho phép"
+       → tài khoản bị khóa
+
+   Việc kiểm tra thực tế được thực hiện ở Apps Script.
+   Web không tự quyết định trạng thái tài khoản.
+   ========================================================= */
+
+
+/* =========================================================
+   5. TỰ ĐỘNG XÓA PHIÊN CŨ KHI ĐĂNG XUẤT
+   ========================================================= */
+
+function logoutUser() {
+
+    currentUser = null;
+
+
+    localStorage.removeItem(
+        "currentUser"
+    );
+
+
+    if (
+        typeof updateAccountUI === "function"
+    ) {
+
+        updateAccountUI();
+
+    }
+
+
+    showToast(
+        "Bạn đã đăng xuất."
+    );
+
+}
+
+
+/* =========================================================
+   6. KIỂM TRA ĐĂNG NHẬP TRƯỚC KHI HỌC / THI
+   ========================================================= */
+
+function requireLogin() {
+
+    if (
+        !currentUser
+    ) {
+
+        showToast(
+            "Vui lòng đăng ký hoặc đăng nhập trước!"
+        );
+
+
+        if (
+            typeof openAuth === "function"
+        ) {
+
+            openAuth("login");
+
+        }
+
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   7. CHẶN CÁC CHỨC NĂNG KHI CHƯA ĐĂNG NHẬP
+   ========================================================= */
+
+function checkLoginBeforeAction(callback) {
+
+    if (
+        !requireLogin()
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        typeof callback === "function"
+    ) {
+
+        callback();
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
 /* =====================================================
    1. DỮ LIỆU BÀI HỌC
 ===================================================== */
