@@ -7577,87 +7577,47 @@ window.openTheoryModule = function(moduleId) {
 };
 
 
-// 1. THAY ĐƯỜNG LINK URL WEB APP CỦA BẠN VÀO GIỮA HAI DẤU NHÁY KÉP DƯỚI ĐÂY
-// (Đây là đường link URL bạn nhận được sau khi bấm "Triển khai" ở Giai đoạn 3 trong Google Apps Script)
-const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbyS3zuB_AOJtnkRJvBg6nbjQJgCGfv3__d3XWjsgfs20fUkh1ATMcnx81ygGsCCTOsFxw/exec";
+/* =====================================================
+   ADMIN BUTTON
+===================================================== */
 
-/**
- * HÀM XỬ LÝ ĐĂNG KÝ TÀI KHOẢN MỚI
- * @param {string} fullname - Họ và tên người dùng nhập
- * @param {string} password - Mật khẩu người dùng nhập
- */
-function registerUser(fullname, password) {
-    // Kiểm tra nếu người dùng để trống thông tin
-    if (!fullname || !password) {
-        alert("Vui lòng điền đầy đủ Họ tên và Mật khẩu!");
-        return;
-    }
+function showAdminButton() {
 
-    // Gửi dữ liệu đăng ký lên Google Sheets
-    fetch(GOOGLE_API_URL, {
-        method: "POST",
-        mode: "no-cors", // Thêm dòng này để tránh lỗi chặn bảo mật CORS của trình duyệt
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            action: "register",
-            fullname: fullname,
-            password: password
-        })
-    })
-    .then(() => {
-        alert("Đăng ký thành công! Tài khoản đã được lưu vào file Excel.");
-    })
-    .catch(error => {
-        console.error("Lỗi đăng ký:", error);
-        alert("Có lỗi xảy ra khi kết nối hệ thống!");
-    });
-}
+    let button = document.getElementById("adminButton");
 
-/**
- * HÀM XỬ LÝ ĐĂNG NHẬP & KIỂM TRA KHÓA TÀI KHOẢN
- * @param {string} fullname - Họ và tên người dùng nhập để đăng nhập
- * @param {string} password - Mật khẩu người dùng nhập để đăng nhập
- */
-function loginUser(fullname, password) {
-    if (!fullname || !password) {
-        alert("Vui lòng nhập đầy đủ tên và mật khẩu!");
-        return;
-    }
+    if (!button) {
 
-    // Gửi yêu cầu đăng nhập lên Google Sheets để kiểm tra thông tin
-    fetch(GOOGLE_API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "text/plain" // Sử dụng text/plain giúp Google Script đọc dữ liệu mượt mà, tránh lỗi CORS
-        },
-        body: JSON.stringify({
-            action: "login",
-            fullname: fullname,
-            password: password
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Trường hợp 1: Tài khoản trùng khớp và ĐANG ĐƯỢC CHO PHÉP HOẠT ĐỘNG
-        if (data.status === "success") {
-            alert("Đăng nhập thành công! Quyền hạn: " + data.role);
-            
-            // [MẸO]: Bạn có thể viết thêm code chuyển hướng trang ở đây, ví dụ:
-            // window.location.href = "/trang-chu.html";
-        } 
-        // Trường hợp 2: Bạn đã sửa cột F trên Excel thành "Không cho phép" -> KHÓA TÀI KHOẢN
-        else if (data.status === "blocked") {
-            alert("Thông báo từ Hệ thống: " + data.message); // Sẽ hiện: "Tài khoản của bạn đã bị khóa!"
-        } 
-        // Trường hợp 3: Nhập sai tên hoặc sai mật khẩu
-        else if (data.status === "fail") {
-            alert("Lỗi đăng nhập: " + data.message);
+        button = document.createElement("button");
+
+        button.id = "adminButton";
+        button.className = "admin-button";
+
+        button.innerHTML = `
+            <i class="fa-solid fa-shield-halved"></i>
+            Quản trị
+        `;
+
+        button.onclick = openAdminPanel;
+
+        const accountArea =
+            document.querySelector(".account-area");
+
+        if (accountArea) {
+            accountArea.appendChild(button);
         }
-    })
-    .catch(error => {
-        console.error("Lỗi kết nối đăng nhập:", error);
-        alert("Không thể kết nối đến hệ thống xác thực!");
-    });
+    }
+
+    button.classList.remove("hidden");
 }
+
+
+function hideAdminButton() {
+
+    const button =
+        document.getElementById("adminButton");
+
+    if (button) {
+        button.classList.add("hidden");
+    }
+}
+
