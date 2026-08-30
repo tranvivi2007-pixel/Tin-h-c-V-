@@ -7167,7 +7167,7 @@ function openAbout() {
                     Website Ôn tập Tin học được xây dựng
                     nhằm hỗ trợ người học hệ thống hóa kiến thức,
                     xem bài học, luyện tập trắc nghiệm và
-                    chuẩn bị cho các bài kiểm tra.
+                    chuẩn bị cho tin học chuẩn đầu ra trường QNU.
                 </p>
 
             </section>
@@ -7796,3 +7796,387 @@ function hideAdminButton() {
         setTimeout(setAppHeight, 200);
     });
 })();
+
+
+
+/* =========================================================
+   HẠT SÁNG NHIỀU MÀU RƠI TOÀN TRANG
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    if (document.getElementById("falling-particles")) return;
+
+    const container = document.createElement("div");
+    container.id = "falling-particles";
+
+    const colors = [
+        "#ffffff",
+        "#00e5ff",
+        "#4dabff",
+        "#b56cff",
+        "#ff5ec4",
+        "#ffd166",
+        "#00f5a0",
+        "#ff6b6b"
+    ];
+
+    const amount = window.innerWidth <= 600 ? 60 : 120;
+
+    for (let i = 0; i < amount; i++) {
+
+        const particle = document.createElement("span");
+        particle.className = "falling-particle";
+
+        particle.style.left =
+            Math.random() * 100 + "%";
+
+        particle.style.setProperty(
+            "--size",
+            (Math.random() * 4 + 2) + "px"
+        );
+
+        particle.style.setProperty(
+            "--particle-color",
+            colors[Math.floor(Math.random() * colors.length)]
+        );
+
+        particle.style.setProperty(
+            "--duration",
+            (Math.random() * 7 + 5) + "s"
+        );
+
+        particle.style.setProperty(
+            "--delay",
+            (Math.random() * -12) + "s"
+        );
+
+        particle.style.setProperty(
+            "--opacity",
+            (Math.random() * 0.7 + 0.3)
+        );
+
+        particle.style.setProperty(
+            "--sway-duration",
+            (Math.random() * 3 + 2) + "s"
+        );
+
+        container.appendChild(particle);
+    }
+
+    document.body.appendChild(container);
+
+});
+
+
+/* =========================================================
+   ✅ TỰ ĐỘNG PHÁT HIỆN ĐĂNG NHẬP / ĐĂNG KÝ THÀNH CÔNG
+   ========================================================= */
+
+(() => {
+
+    "use strict";
+
+    let successShown = false;
+    let previousLoggedInState = false;
+
+
+    /* Kiểm tra trạng thái tài khoản */
+    function isLoggedIn() {
+
+        const userArea =
+            document.querySelector(".user-area");
+
+        const loginBtn =
+            document.querySelector(".login-btn");
+
+        const registerBtn =
+            document.querySelector(".register-btn");
+
+
+        /* user-area đang hiện */
+        if (userArea) {
+
+            const style =
+                window.getComputedStyle(userArea);
+
+            if (
+                style.display !== "none" &&
+                style.visibility !== "hidden" &&
+                style.opacity !== "0"
+            ) {
+                return true;
+            }
+        }
+
+
+        /* Nút login/register đã bị ẩn */
+        const loginHidden =
+            !loginBtn ||
+            window.getComputedStyle(loginBtn).display === "none";
+
+        const registerHidden =
+            !registerBtn ||
+            window.getComputedStyle(registerBtn).display === "none";
+
+
+        return loginHidden && registerHidden;
+    }
+
+
+    /* Tạo hiệu ứng */
+    function playSuccessEffect(message) {
+
+        if (successShown) return;
+
+        successShown = true;
+
+
+        const screen =
+            document.createElement("div");
+
+        screen.className =
+            "auth-success-screen";
+
+
+        screen.innerHTML = `
+            <div class="auth-success-glow"></div>
+
+            <div class="auth-success-circle">
+                ✓
+            </div>
+
+            <div class="auth-success-label">
+                ${message}
+            </div>
+        `;
+
+
+        /* Tạo nhiều hạt */
+        const colors = [
+            "#a78bfa",
+            "#f472b6",
+            "#22d3ee",
+            "#facc15",
+            "#34d399",
+            "#ffffff"
+        ];
+
+
+        for (let i = 0; i < 28; i++) {
+
+            const spark =
+                document.createElement("span");
+
+            spark.className =
+                "auth-success-spark";
+
+
+            const angle =
+                Math.random() *
+                Math.PI *
+                2;
+
+            const distance =
+                100 +
+                Math.random() *
+                170;
+
+
+            const x =
+                Math.cos(angle) *
+                distance;
+
+            const y =
+                Math.sin(angle) *
+                distance;
+
+
+            spark.style.setProperty(
+                "--spark-x",
+                `${x}px`
+            );
+
+            spark.style.setProperty(
+                "--spark-y",
+                `${y}px`
+            );
+
+            spark.style.setProperty(
+                "--spark-color",
+                colors[
+                    Math.floor(
+                        Math.random() *
+                        colors.length
+                    )
+                ]
+            );
+
+
+            spark.style.animationDelay =
+                `${Math.random() * .15}s`;
+
+
+            screen.appendChild(spark);
+        }
+
+
+        document.body.appendChild(screen);
+
+
+        /* Tự biến mất */
+        setTimeout(() => {
+
+            screen.style.transition =
+                "opacity .4s ease";
+
+            screen.style.opacity = "0";
+
+
+            setTimeout(() => {
+
+                screen.remove();
+
+                successShown = false;
+
+            }, 400);
+
+        }, 1700);
+    }
+
+
+    /* Theo dõi thay đổi DOM */
+    const observer =
+        new MutationObserver(() => {
+
+            const loggedIn =
+                isLoggedIn();
+
+
+            /* Chỉ chạy khi chuyển từ
+               chưa đăng nhập → đã đăng nhập */
+            if (
+                loggedIn &&
+                !previousLoggedInState
+            ) {
+
+                playSuccessEffect(
+                    "🎉 Đăng nhập thành công!"
+                );
+            }
+
+
+            previousLoggedInState =
+                loggedIn;
+
+        });
+
+
+    observer.observe(
+        document.body,
+        {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: [
+                "class",
+                "style"
+            ]
+        }
+    );
+
+
+    /* Lấy trạng thái ban đầu */
+    previousLoggedInState =
+        isLoggedIn();
+
+})();
+
+
+/* =========================================================
+   🔄 LÀM LẠI → MỞ TRANG TRẮC NGHIỆM
+   ========================================================= */
+
+document.addEventListener("click", function (event) {
+
+    const retryButton =
+        event.target.closest(".home-retry-quiz");
+
+    if (!retryButton) return;
+
+    /*
+       Không dùng preventDefault()
+       Không dùng stopPropagation()
+       để tránh làm hỏng hệ thống điều hướng hiện tại.
+    */
+
+    setTimeout(function () {
+
+        /*
+           CÁCH 1:
+           Nếu web của bạn có hàm mở trang quiz
+        */
+
+        if (typeof showPage === "function") {
+
+            showPage("quiz");
+            return;
+        }
+
+
+        /*
+           CÁCH 2:
+           Một số code có tên hàm khác
+        */
+
+        if (typeof openQuizPage === "function") {
+
+            openQuizPage();
+            return;
+        }
+
+
+        /*
+           CÁCH 3:
+           Tìm nút Trắc nghiệm trên thanh menu
+           và kích hoạt nó.
+        */
+
+        const quizButton =
+            Array.from(
+                document.querySelectorAll(
+                    ".nav-item, .side-card button, .category-card button"
+                )
+            ).find(function (btn) {
+
+                const text =
+                    (
+                        btn.innerText ||
+                        btn.textContent ||
+                        ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+                return (
+                    text.includes("trắc nghiệm") ||
+                    text.includes("trac nghiem") ||
+                    text === "quiz"
+                );
+            });
+
+
+        if (quizButton) {
+
+            quizButton.click();
+            return;
+        }
+
+
+        console.warn(
+            "Không tìm thấy hàm hoặc nút mở trang Trắc nghiệm."
+        );
+
+    }, 0);
+
+});

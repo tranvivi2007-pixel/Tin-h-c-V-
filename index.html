@@ -852,6 +852,126 @@
 
 
 <!-- =====================================================
+     FOOTER - THÔNG TIN WEBSITE / BẢN QUYỀN
+===================================================== -->
+<footer class="site-footer">
+    <div class="footer-glow"></div>
+
+    <div class="footer-container">
+
+        <!-- THƯƠNG HIỆU -->
+        <div class="footer-column footer-brand">
+            <div class="footer-brand-title">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-computer"></i>
+                </div>
+                <div>
+                    <strong>TIN HỌC</strong>
+                    <span>ÔN TẬP – VỮNG KIẾN THỨC</span>
+                </div>
+            </div>
+
+            <p>
+                Nền tảng ôn tập Tin học đầu ra với PowerPoint, Excel,
+                Word, trắc nghiệm, đề thi và tài liệu học tập.
+            </p>
+
+            <div class="footer-author">
+                <i class="fa-solid fa-pen-nib"></i>
+                <span>
+                    Tác giả &amp; phát triển<br>
+                    <strong>TRẦN VI VĨ</strong>
+                </span>
+            </div>
+        </div>
+
+        <!-- KHÁM PHÁ -->
+        <div class="footer-column">
+            <h3><i class="fa-solid fa-compass"></i> KHÁM PHÁ</h3>
+            <button onclick="showHome()">
+                <i class="fa-solid fa-house"></i> Trang chủ
+            </button>
+            <button onclick="openCategory('powerpoint')">
+                <i class="fa-solid fa-file-powerpoint"></i> PowerPoint
+            </button>
+            <button onclick="openCategory('excel')">
+                <i class="fa-solid fa-file-excel"></i> Excel
+            </button>
+            <button onclick="openCategory('word')">
+                <i class="fa-solid fa-file-word"></i> Word
+            </button>
+        </div>
+
+        <!-- HỌC TẬP -->
+        <div class="footer-column">
+            <h3><i class="fa-solid fa-graduation-cap"></i> HỌC TẬP</h3>
+            <button onclick="openExam()">
+                <i class="fa-solid fa-circle-check"></i> Ôn tập trắc nghiệm
+            </button>
+            <button onclick="openDocuments()">
+                <i class="fa-solid fa-folder-open"></i> Đề thi &amp; Tài liệu
+            </button>
+            <button onclick="openVideos()">
+                <i class="fa-solid fa-circle-play"></i> Video bài giảng
+            </button>
+            <button onclick="openDiscussion()">
+                <i class="fa-solid fa-comments"></i> Hỏi đáp
+            </button>
+        </div>
+
+        <!-- THÔNG TIN -->
+        <div class="footer-column">
+            <h3><i class="fa-solid fa-circle-info"></i> THÔNG TIN</h3>
+
+            <button onclick="openAbout()">
+                <i class="fa-solid fa-user-pen"></i> Giới thiệu tác giả
+            </button>
+
+            <div class="footer-info-item">
+                <i class="fa-solid fa-user-tie"></i>
+                <div>
+                    <small>TÁC GIẢ</small>
+                    <strong>TRẦN VI VĨ</strong>
+                </div>
+            </div>
+
+            <div class="footer-info-item">
+                <i class="fa-solid fa-book-open"></i>
+                <div>
+                    <small>NỘI DUNG</small>
+                    <strong>Ôn tập Tin học đầu ra</strong>
+                </div>
+            </div>
+
+            <div class="footer-info-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                    <small>BẢN QUYỀN</small>
+                    <strong>Nội dung thuộc tác giả</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+        <p>
+            © <span id="footerYear">2026</span>
+            <strong>TRẦN VI VĨ</strong>.
+            Bản quyền nội dung thuộc tác giả. All rights reserved.
+        </p>
+
+        <div class="footer-bottom-badge">
+            <i class="fa-solid fa-code"></i>
+            Designed &amp; Developed by <strong>TRẦN VI VĨ</strong>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- =====================================================
      LOGIN MODAL
 ===================================================== -->
 
@@ -1001,6 +1121,4 @@
 
 </body>
 </html>
-
-
 
